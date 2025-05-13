@@ -1,28 +1,24 @@
-﻿using Api.Contract;
-using Api.Contract.Base;
-using Api.Controllers;
+﻿using Api.Contract.Base;
+using Api.Contract;
 using Application.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("auth")]
-    public class AuthController : ControllerBase
+    [Route("user")]
+    public class UserController : ControllerBase
     {
         private IAuthService1 _authService1;
-        private IAuthService2 _authService2_1;
-        private IAuthService2 _authService2_2;
-        private IAuthService3 _authService3_1;
-        private IAuthService3 _authService3_2;
-        public AuthController(IAuthService1 authService1, IAuthService2 authService2, IAuthService2 authService3, IAuthService3 authService4, IAuthService3 authService5)
+        private IAuthService2 _authService2;
+        private IAuthService3 _authService3;
+        public UserController(IAuthService1 authService1, IAuthService2 authService2, IAuthService3 authService3)
         {
             _authService1 = authService1;
-            _authService2_1 = authService2;
-            _authService2_2 = authService3;
-            _authService3_1 = authService4;
-            _authService3_2 = authService5;
+            _authService2 = authService2;
+            _authService3 = authService3;
         }
+
 
         [HttpPost]
         [Route("register")]
@@ -43,14 +39,6 @@ namespace Api.Controllers
             /// 2.2 Thanh cong -> Tra ket qua thanh cong
             ///------------------------///
             return Ok(res);
-        }
-
-        [HttpPost]
-        [Route("login")]
-        public IActionResult Login(LoginRequest req)
-        {
-            LoginData registerRes = new();
-            return Ok(new LoginResponse(registerRes));
         }
     }
 }

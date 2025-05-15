@@ -57,9 +57,10 @@ namespace Api.Controllers
                 /// 1.1 That bai -> Tra loi
                 res.SetError(ErrorCodes.InvalidReq, errMsg);
             }
-            /// 1.2 Thanh cong -> Tiep tuc
+            /// 1.2 Thanh cong -> Tiep tucz
             /// 2 Goi xuong Service de tao User
-            _authService.Login(req.Username!, req.Password!);
+            string token =_authService.Login(req.Username!, req.Password!);
+            registerRes.Token = token;
             /// 2.1 That bai -> Tra loi
             /// 2.2 Thanh cong -> Tra ket qua thanh cong
             ///------------------------///

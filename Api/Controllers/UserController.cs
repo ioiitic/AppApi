@@ -2,6 +2,7 @@
 using Api.Contract;
 using Application.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -15,26 +16,12 @@ namespace Api.Controllers
             _authService = authService;
         }
 
-
         [HttpPost]
         [Route("register")]
-        public IActionResult Register(RegisterRequest req)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Test()
         {
-            RegisterData registerRes = new();
-            var res = new RegisterResponse();
-            ///------------------------///
-            /// 1 Validate request
-            if (!req.IsValid(out string errMsg))
-            {
-                /// 1.1 That bai -> Tra loi
-                res.SetError(ErrorCodes.InvalidReq, errMsg);
-            }
-            /// 1.2 Thanh cong -> Tiep tuc
-            /// 2 Goi xuong Repo de tao User
-            /// 2.1 That bai -> Tra loi
-            /// 2.2 Thanh cong -> Tra ket qua thanh cong
-            ///------------------------///
-            return Ok(res);
+            return Ok();
         }
     }
 }

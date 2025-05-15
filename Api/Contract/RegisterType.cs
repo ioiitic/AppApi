@@ -1,5 +1,4 @@
 ﻿using Api.Contract.Base;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.Contract
 {
@@ -24,26 +23,17 @@ namespace Api.Contract
         }
     }
 
-    public class RegisterResponse
+    public class RegisterResponse : BaseResponse
     {
-        public bool Success { get; set; }
-        public ErrorCodes ErrorCode { get; set; }
-        public string ErrorMessage { get; set; }
         public RegisterData? Data { get; set; }
 
-        public RegisterResponse()
+        public RegisterResponse() : base() 
         {
-            Success = true;
-            ErrorCode = ErrorCodes.Success;
-            ErrorMessage = "Success";
             Data = null;
         }
 
-        public RegisterResponse(RegisterData data)
+        public RegisterResponse(RegisterData data) : base()
         {
-            Success = true;
-            ErrorCode = ErrorCodes.Success;
-            ErrorMessage = "Success";
             Data = data;
         }
 

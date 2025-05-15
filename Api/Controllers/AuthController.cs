@@ -1,6 +1,5 @@
 ﻿using Api.Contract;
 using Api.Contract.Base;
-using Api.Controllers;
 using Application.Services.Auth;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,18 +9,10 @@ namespace Api.Controllers
     [Route("auth")]
     public class AuthController : ControllerBase
     {
-        private IAuthService1 _authService1;
-        private IAuthService2 _authService2_1;
-        private IAuthService2 _authService2_2;
-        private IAuthService3 _authService3_1;
-        private IAuthService3 _authService3_2;
-        public AuthController(IAuthService1 authService1, IAuthService2 authService2, IAuthService2 authService3, IAuthService3 authService4, IAuthService3 authService5)
+        private IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
-            _authService1 = authService1;
-            _authService2_1 = authService2;
-            _authService2_2 = authService3;
-            _authService3_1 = authService4;
-            _authService3_2 = authService5;
+            _authService = authService;
         }
 
         [HttpPost]
@@ -38,7 +29,15 @@ namespace Api.Controllers
                 res.SetError(ErrorCodes.InvalidReq, errMsg);
             }
             /// 1.2 Thanh cong -> Tiep tuc
-            /// 2 Goi xuong Repo de tao User
+            /// 2 Goi xuong Service de tao User
+            try
+            {
+                _authService.RegisterAccount(req.Username!, req.Email, req.Password!);
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ErrorCodes.UserExist, ex.Message);
+            }
             /// 2.1 That bai -> Tra loi
             /// 2.2 Thanh cong -> Tra ket qua thanh cong
             ///------------------------///
@@ -50,6 +49,20 @@ namespace Api.Controllers
         public IActionResult Login(LoginRequest req)
         {
             LoginData registerRes = new();
+            var res = new LoginResponse();
+            ///------------------------///
+            /// 1 Validate request
+            if (!req.IsValid(out string errMsg))
+            {
+                /// 1.1 That bai -> Tra loi
+                res.SetError(ErrorCodes.InvalidReq, errMsg);
+            }
+            /// 1.2 Thanh cong -> Tiep tuc
+            /// 2 Goi xuong Service de tao User
+            _authService.Login(req.Username!, req.Password!);
+            /// 2.1 That bai -> Tra loi
+            /// 2.2 Thanh cong -> Tra ket qua thanh cong
+            ///------------------------///
             return Ok(new LoginResponse(registerRes));
         }
     }

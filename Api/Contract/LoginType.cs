@@ -6,20 +6,33 @@ namespace Api.Contract
     {
         public required string Username { get; set; }
         public required string Password { get; set; }
+
+        public bool IsValid(out string errMsg)
+        {
+            errMsg = string.Empty;
+            if (string.IsNullOrEmpty(Username))
+            {
+                errMsg += $"Field {nameof(Username)} is invalid";
+            }
+            if (string.IsNullOrEmpty(Password))
+            {
+                errMsg += $"Field {nameof(Password)} is invalid";
+            }
+            return string.IsNullOrEmpty(errMsg);
+        }
     }
 
-    public class LoginResponse
+    public class LoginResponse : BaseResponse
     {
-        public bool Success { get; set; }
-        public ErrorCodes ErrorCode { get; set; }
-        public string ErrorMessage { get; set; }
         public LoginData? Data { get; set; }
 
-        public LoginResponse(LoginData data)
+        public LoginResponse() : base()
         {
-            Success = true;
-            ErrorCode = ErrorCodes.Success;
-            ErrorMessage = "Success";
+            Data = null;
+        }
+
+        public LoginResponse(LoginData data) : base()
+        {
             Data = data;
         }
 

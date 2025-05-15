@@ -1,33 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infrastructure.Repos.Auth;
 
 namespace Application.Services.Auth
 {
-    public class AuthService1 : IAuthService1
+    public class AuthService : IAuthService
     {
-        public static int Test = 0;
-        public AuthService1()
+        private IAuthRepo _authRepo;
+
+        public AuthService(IAuthRepo authRepo)
         {
-            Test++;
+            _authRepo = authRepo;
         }
-    }
-    public class AuthService2 : IAuthService2
-    {
-        public static int Test = 0;
-        public AuthService2()
+
+        public void RegisterAccount(string username, string? email, string password)
         {
-            Test++;
+            /// Check trung username hoac email
+            /// Tim trong DB -> user hoac email
+            bool exist = _authRepo.CheckUser(username, email);
+            if (exist)
+            {
+                throw new Exception("Exist");
+            }
+            _authRepo.RegisterAccount(username, email, password);
         }
-    }
-    public class AuthService3 : IAuthService3
-    {
-        public static int Test = 0;
-        public AuthService3()
+
+        public bool Login(string username, string password)
         {
-            Test++;
+            return _authRepo.Login(username, password);
         }
     }
 }

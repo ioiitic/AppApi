@@ -9,14 +9,10 @@ namespace Api.Controllers
     [Route("user")]
     public class UserController : ControllerBase
     {
-        private IAuthService1 _authService1;
-        private IAuthService2 _authService2;
-        private IAuthService3 _authService3;
-        public UserController(IAuthService1 authService1, IAuthService2 authService2, IAuthService3 authService3)
+        private IAuthService _authService;
+        public UserController(IAuthService authService)
         {
-            _authService1 = authService1;
-            _authService2 = authService2;
-            _authService3 = authService3;
+            _authService = authService;
         }
 
 

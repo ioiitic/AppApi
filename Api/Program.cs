@@ -1,13 +1,12 @@
-using Api.Controllers;
 using Application.Services.Auth;
+using Infrastructure.Repos.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton(typeof(IAuthService1), typeof(AuthService1));
-builder.Services.AddTransient(typeof(IAuthService2), typeof(AuthService2));
-builder.Services.AddScoped(typeof(IAuthService3), typeof(AuthService3));
+builder.Services.AddScoped(typeof(IAuthService), typeof(AuthService));
+builder.Services.AddSingleton(typeof(IAuthRepo), typeof(AuthRepo));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
